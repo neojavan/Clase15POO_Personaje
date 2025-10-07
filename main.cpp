@@ -30,7 +30,7 @@ int main() {
 
     std::cout << "\nEl programa 'main' esta a punto de terminar." << std::endl;
     std::cout << "Los objetos en el Stack ('heroe' y 'orco') seran destruidos automaticamente." << std::endl;
-    std::cout << "El destructor de 'heroe' se encargará de liberar la memoria del Arma en el Heap." << std::endl;
+    std::cout << "El destructor de 'heroe' se encargara de liberar la memoria del Arma en el Heap." << std::endl;
 
     // Al final de main, se llamará a ~Personaje() para 'heroe' y 'orco'.
     // El destructor de 'heroe' ejecutará 'delete' sobre 'ptrEspada', previniendo una fuga de memoria.
