@@ -3,34 +3,38 @@
 
 #include <string>
 
+// Forward declaration de la clase Arma.
+// Le decimos al compilador que "Arma" es una clase sin necesidad de incluir el .h completo.
+// Esto es útil para evitar dependencias circulares y acelerar la compilación.
+class Arma;
+
 /**
  * @class Personaje
- * @brief DECLARACIÓN de la clase Personaje.
- * Define la interfaz pública y los atributos privados para un personaje de videojuego.
+ * @brief DECLARACIÓN MODIFICADA de la clase Personaje.
+ * Ahora puede gestionar un puntero a un objeto Arma.
  */
 class Personaje {
 private:
-    // Atributos privados para proteger el estado del personaje.
     std::string nombre;
     int puntosDeVida;
+    // Puntero para almacenar la dirección de memoria de un objeto Arma creado en el Heap.
+    Arma* armaEquipada;
 
 public:
-    // --- Constructor ---
-    // Se asegura de que cada personaje nazca en un estado válido.
     Personaje(std::string nombre);
+    ~Personaje(); // El destructor ahora es crucial para liberar memoria.
 
-    // --- Destructor ---
-    // Se ejecuta cuando el personaje es eliminado.
-    ~Personaje();
+    // Método para equipar un arma creada dinámicamente.
+    void equiparArma(Arma* ptrArma);
 
-    // --- Getter ---
-    // Permite consultar el estado (la vida) de forma segura.
-    int getPuntosDeVida() const;
+    // El método atacar ahora usará el arma si está equipada.
+    void atacar(Personaje& objetivo);
 
-    // --- Setters con Reglas ---
-    // Métodos que modifican el estado del personaje aplicando validaciones.
+    // Métodos existentes.
     void recibirDanio(int danio);
-    void curar(int cantidadCuracion);
+    int getPuntosDeVida() const;
+    std::string getNombre() const;
 };
 
 #endif //PERSONAJE_H
+

@@ -1,34 +1,39 @@
 #include <iostream>
 #include "Personaje.h"
+#include "Arma.h"
 
-/**
- * @file main.cpp
- * @brief Programa principal para simular el uso de la clase Personaje.
- */
 int main() {
-    std::cout << "===== SIMULADOR DE COMBATE BaSICO =====" << std::endl;
+    std::cout << "===== GESTIoN DE MEMORIA DINaMICA =====" << std::endl;
 
-    // Se crea un objeto Personaje. Se invoca a su constructor.
+    // 1. Creamos un héroe en la memoria ESTÁTICA (Stack).
+    // Su vida está limitada al ámbito de la función main.
     Personaje heroe("Aragorn");
 
+    // 2. Creamos un arma en la memoria DINÁMICA (Heap) usando 'new'.
+    // Esta memoria PERSISTE hasta que la liberemos explícitamente con 'delete'.
+    // 'ptrEspada' contiene la dirección de memoria del objeto Arma.
+    Arma* ptrEspada = new Arma("Anduril", 50);
+
+    // 3. El personaje equipa el arma.
+    // Pasamos el puntero (la dirección de memoria) al método.
+    heroe.equiparArma(ptrEspada);
+
+    // 4. Creamos un enemigo para la simulación.
+    Personaje orco("Lurtz");
+
+    // 5. Simulación de combate.
     std::cout << "\n--- Comienza el combate ---" << std::endl;
+    heroe.atacar(orco);
+    orco.atacar(heroe);
+    heroe.atacar(orco);
+    std::cout << "-------------------------" << std::endl;
 
-    // Se usan los setters para modificar el estado del objeto.
-    heroe.recibirDanio(30);  // Vida: 70
-    heroe.recibirDanio(25);  // Vida: 45
+    std::cout << "\nEl programa 'main' esta a punto de terminar." << std::endl;
+    std::cout << "Los objetos en el Stack ('heroe' y 'orco') seran destruidos automaticamente." << std::endl;
+    std::cout << "El destructor de 'heroe' se encargará de liberar la memoria del Arma en el Heap." << std::endl;
 
-    // Se usa el setter de curación.
-    heroe.curar(20);         // Vida: 65
-
-    // Se prueba la regla de que la vida no puede superar 100.
-    heroe.curar(50);         // Vida debería ser 100, no 115.
-
-    // Se prueba la regla de que la vida no puede ser menor a 0.
-    heroe.recibirDanio(120); // Vida debería ser 0, no -20.
-
-    std::cout << "\n--- Fin del combate ---" << std::endl;
-    std::cout << "El programa 'main' está a punto de terminar." << std::endl;
-    std::cout << "El destructor de 'heroe' se llamara automaticamente." << std::endl;
-
+    // Al final de main, se llamará a ~Personaje() para 'heroe' y 'orco'.
+    // El destructor de 'heroe' ejecutará 'delete' sobre 'ptrEspada', previniendo una fuga de memoria.
     return 0;
 }
+
